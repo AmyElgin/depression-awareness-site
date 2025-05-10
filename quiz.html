@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Depression Quiz</title>
   <style>
     body {
@@ -28,21 +29,17 @@
       margin: auto;
     }
     .question {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-    input[type="number"] {
-      width: 60px;
-      padding: 5px;
+      margin-bottom: 15px;
     }
     button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
       background-color: #4CAF50;
       color: white;
       border: none;
+      padding: 10px 20px;
+      font-size: 16px;
       cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
     }
     button:hover {
       background-color: #45a049;
@@ -60,56 +57,57 @@
   </header>
 
   <main>
-    <h2>Depression Quiz</h2>
+    <h2>Depression Awareness Quiz</h2>
     <form id="quizForm">
       <div class="question">
-        <label>1. How often have you felt down or hopeless in the last two weeks? (1–10)</label><br />
-        <input type="number" name="q1" min="1" max="10" required>
+        <label for="q1">On a scale from 1 to 10, how often have you felt hopeless in the past two weeks?</label>
+        <input type="number" id="q1" name="q1" min="1" max="10" required>
       </div>
       <div class="question">
-        <label>2. How often have you had trouble sleeping or slept too much? (1–10)</label><br />
-        <input type="number" name="q2" min="1" max="10" required>
+        <label for="q2">On a scale from 1 to 10, how often have you lost interest in activities you once enjoyed?</label>
+        <input type="number" id="q2" name="q2" min="1" max="10" required>
       </div>
       <div class="question">
-        <label>3. How often have you felt tired or had little energy? (1–10)</label><br />
-        <input type="number" name="q3" min="1" max="10" required>
+        <label for="q3">On a scale from 1 to 10, how often have you felt tired or low in energy?</label>
+        <input type="number" id="q3" name="q3" min="1" max="10" required>
       </div>
       <div class="question">
-        <label>4. How often have you felt bad about yourself or felt like a failure? (1–10)</label><br />
-        <input type="number" name="q4" min="1" max="10" required>
+        <label for="q4">On a scale from 1 to 10, how often have you experienced changes in your appetite or weight?</label>
+        <input type="number" id="q4" name="q4" min="1" max="10" required>
       </div>
       <div class="question">
-        <label>5. How often have you had trouble concentrating? (1–10)</label><br />
-        <input type="number" name="q5" min="1" max="10" required>
+        <label for="q5">On a scale from 1 to 10, how often have you felt guilty or worthless?</label>
+        <input type="number" id="q5" name="q5" min="1" max="10" required>
       </div>
       <div class="question">
-        <label>6. How often have you had little interest in doing things you normally enjoy? (1–10)</label><br />
-        <input type="number" name="q6" min="1" max="10" required>
+        <label for="q6">On a scale from 1 to 10, how often have you had trouble concentrating on tasks?</label>
+        <input type="number" id="q6" name="q6" min="1" max="10" required>
       </div>
       <div class="question">
-        <label>7. How often have you felt restless or fidgety? (1–10)</label><br />
-        <input type="number" name="q7" min="1" max="10" required>
+        <label for="q7">On a scale from 1 to 10, how often have you felt that things won't get better?</label>
+        <input type="number" id="q7" name="q7" min="1" max="10" required>
       </div>
       <div class="question">
-        <label>8. How often have you felt slowed down in your thinking or movement? (1–10)</label><br />
-        <input type="number" name="q8" min="1" max="10" required>
+        <label for="q8">On a scale from 1 to 10, how often have you experienced thoughts of self-harm or suicide?</label>
+        <input type="number" id="q8" name="q8" min="1" max="10" required>
       </div>
       <div class="question">
-        <label>9. How often have you felt alone or disconnected from others? (1–10)</label><br />
-        <input type="number" name="q9" min="1" max="10" required>
+        <label for="q9">On a scale from 1 to 10, how often have you felt disconnected from others or isolated?</label>
+        <input type="number" id="q9" name="q9" min="1" max="10" required>
       </div>
       <div class="question">
-        <label>10. How often have you had thoughts that life isn’t worth living? (1–10)</label><br />
-        <input type="number" name="q10" min="1" max="10" required>
+        <label for="q10">On a scale from 1 to 10, how often have you had trouble getting out of bed or completing daily tasks?</label>
+        <input type="number" id="q10" name="q10" min="1" max="10" required>
       </div>
-      <button type="submit">Submit Quiz</button>
+      <button type="submit">Submit</button>
     </form>
+    <div id="result" style="margin-top: 20px;"></div>
   </main>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-  
+
     const firebaseConfig = {
       apiKey: "AIzaSyB8RPTDWCPMRLl-IirhunsbBvCw-PRytVs",
       authDomain: "depression-b81de.firebaseapp.com",
@@ -118,33 +116,42 @@
       messagingSenderId: "206001450588",
       appId: "1:206001450588:web:4259c6db7d8c40894fc099"
     };
-  
+
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-  
+
     document.getElementById("quizForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-  
+
       const formData = new FormData(this);
       const answers = {};
       formData.forEach((value, key) => {
         answers[key] = parseInt(value);
       });
-  
+
+      // Calculate depression score
+      const depressionScore = Object.values(answers).reduce((acc, val) => acc + val, 0);
+      let resultMessage = "You seem to be doing okay.";
+
+      if (depressionScore >= 60) {
+        resultMessage = "You may be showing signs of depression. Consider reaching out to someone for help.";
+      }
+
+      // Show result
+      document.getElementById("result").innerText = resultMessage;
+
       try {
         await addDoc(collection(db, "quizResponses"), {
           answers: answers,
           timestamp: Date.now()
         });
-        alert("Thank you! Your responses have been saved.");
+        alert("Your responses have been saved!");
         this.reset();
       } catch (e) {
         console.error("Error saving quiz:", e);
-        alert("Something went wrong. Please try again.");
       }
     });
   </script>
-  
 
 </body>
 </html>

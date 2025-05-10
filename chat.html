@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Anonymous Chat</title>
   <style>
     body {
@@ -27,14 +28,28 @@
       max-width: 800px;
       margin: auto;
     }
-    .response {
+    .message {
       background-color: #fff;
       margin: 10px 0;
       padding: 10px;
       border-radius: 5px;
     }
-    .response p {
-      margin: 0;
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    input {
+      width: 80%;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
@@ -49,13 +64,16 @@
   </header>
 
   <main>
-    <h2>Anonymous Responses</h2>
-    <div id="responses"></div>
+    <h2>Anonymous Chat</h2>
+    <div id="messages"></div>
+
+    <input type="text" id="chatInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
   </main>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB8RPTDWCPMRLl-IirhunsbBvCw-PRytVs",
@@ -69,23 +87,37 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // Display messages from Firestore
     window.onload = async function() {
-      const querySnapshot = await getDocs(collection(db, "quizResponses"));
-      const responsesContainer = document.getElementById('responses');
+      const querySnapshot = await getDocs(collection(db, "chatMessages"));
+      const messagesContainer = document.getElementById("messages");
 
       querySnapshot.forEach((doc) => {
-        const responseData = doc.data().answers;
-        const responseDiv = document.createElement('div');
-        responseDiv.classList.add('response');
-
-        let responseText = "<strong>Response:</strong><br>";
-        for (let question in responseData) {
-          responseText += `Q${question}: ${responseData[question]}<br>`;
-        }
-
-        responseDiv.innerHTML = responseText;
-        responsesContainer.appendChild(responseDiv);
+        const messageData = doc.data();
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message");
+        messageDiv.textContent = messageData.message;
+        messagesContainer.appendChild(messageDiv);
       });
+    };
+
+    // Send a new message
+    window.sendMessage = async function() {
+      const messageInput = document.getElementById("chatInput");
+      const message = messageInput.value.trim();
+
+      if (message) {
+        try {
+          await addDoc(collection(db, "chatMessages"), {
+            message: message,
+            timestamp: Date.now()
+          });
+          messageInput.value = "";
+          alert("Message sent!");
+        } catch (e) {
+          console.error("Error sending message: ", e);
+        }
+      }
     };
   </script>
 
