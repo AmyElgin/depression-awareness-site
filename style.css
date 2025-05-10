@@ -50,3 +50,11 @@ textarea, input {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+.infographic {
+  display: block;
+  margin: 20px auto; /* vertical spacing + horizontal centering */
+  max-width: 90%;    /* makes it responsive */
+  height: auto;      /* keeps aspect ratio */
+}
+
