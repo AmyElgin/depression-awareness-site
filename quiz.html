@@ -109,7 +109,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-
+  
     const firebaseConfig = {
       apiKey: "AIzaSyB8RPTDWCPMRLl-IirhunsbBvCw-PRytVs",
       authDomain: "depression-b81de.firebaseapp.com",
@@ -118,19 +118,19 @@
       messagingSenderId: "206001450588",
       appId: "1:206001450588:web:4259c6db7d8c40894fc099"
     };
-
+  
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
+  
     document.getElementById("quizForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-
+  
       const formData = new FormData(this);
       const answers = {};
       formData.forEach((value, key) => {
         answers[key] = parseInt(value);
       });
-
+  
       try {
         await addDoc(collection(db, "quizResponses"), {
           answers: answers,
@@ -144,6 +144,7 @@
       }
     });
   </script>
+  
 
 </body>
 </html>

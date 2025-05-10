@@ -1,36 +1,66 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Depression Awareness</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0fff0;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      padding: 20px;
+      text-align: center;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 10px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
+
   <header>
     <h1>Depression Awareness</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="chat.html">Chat</a>
+    </nav>
   </header>
 
   <main>
-    <section id="quiz-section">
-      <h2>Take the Depression Quiz</h2>
-      <button onclick="startQuiz()">Start Quiz</button>
-      <div id="quiz-container"></div>
-    </section>
+    <h2>Welcome to the Depression Awareness Website</h2>
+    <p>This website aims to raise awareness about depression and provide resources for those in need. You can take our quiz to assess your mental health and chat anonymously with someone if you need help.</p>
 
-    <section id="chat-section">
-      <h2>Anonymous Chat</h2>
-      <button onclick="startChat()">Start Chat</button>
-      <div id="chat-container"></div>
-    </section>
+    <button onclick="window.location.href='quiz.html'">Start the Quiz</button>
+    <button onclick="window.location.href='chat.html'">Go to Anonymous Chat</button>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Depression Awareness Project</p>
-  </footer>
-
-  <script type="module" src="quiz.js"></script>
-  <script type="module" src="chat.js"></script>
 </body>
 </html>
+
