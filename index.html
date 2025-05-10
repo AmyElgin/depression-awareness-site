@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depression Awareness</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Depression Awareness</h1>
+            <nav>
+                <a href="#quiz">Quiz</a>
+                <a href="#chat">Chat</a>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Quiz Section -->
+            <section id="quiz">
+                <h2>Check Your Mental Health</h2>
+                <p class="description">Answer these simple questions to see if you may be experiencing signs of depression.</p>
+                <div id="quiz-container"></div>
+                <button id="submit-quiz">Submit</button>
+                <div id="quiz-result"></div>
+            </section>
+
+            <!-- Chat Section -->
+            <section id="chat">
+                <h2>Anonymous Support Chat</h2>
+                <p class="description">Talk to others who understand what you're going through.</p>
+                <div id="chat-box">
+                    <div id="chat-container"></div>
+                    <div class="chat-input-row">
+                        <input type="text" id="chat-input" placeholder="Type a message...">
+                        <button id="send-message">Send</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>You're not alone. Reach out. 💙</p>
+        </footer>
+    </div>
+
+    <script src="quiz.js"></script>
+    <script src="chat.js"></script>
+</body>
+</html>
