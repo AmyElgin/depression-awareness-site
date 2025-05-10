@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Depression Chat Forum</title>
-  <script type="module">
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      onSnapshot,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+  
     const firebaseConfig = {
       apiKey: "AIzaSyB8RPTDWCPMRLl-IirhunsbBvCw-PRytVs",
       authDomain: "depression-b81de.firebaseapp.com",
@@ -15,28 +17,32 @@
       messagingSenderId: "206001450588",
       appId: "1:206001450588:web:4259c6db7d8c40894fc099"
     };
-
+  
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
     const chatBox = document.getElementById("chat-box");
     const msgInput = document.getElementById("userMessage");
-
     const messagesRef = collection(db, "chatMessages");
     const q = query(messagesRef, orderBy("timestamp"));
-
+  
     onSnapshot(q, (snapshot) => {
+      // Clear and rebuild chat from scratch
       chatBox.innerHTML = "";
+      const messages = [];
       snapshot.forEach((doc) => {
-        const data = doc.data();
-        const sender = data.sender || "Anonymous";
-        const msg = document.createElement("div");
-        msg.innerHTML = `<strong>${sender}:</strong> ${data.message}`;
-        chatBox.appendChild(msg);
+        messages.push(doc.data());
       });
+  
+      messages.forEach((msg) => {
+        const div = document.createElement("div");
+        div.innerHTML = `<strong>${msg.sender}:</strong> ${msg.message}`;
+        chatBox.appendChild(div);
+      });
+  
+      // Auto-scroll
       chatBox.scrollTop = chatBox.scrollHeight;
     });
-
+  
     window.sendUserMessage = async function () {
       const text = msgInput.value.trim();
       if (!text) return;
@@ -48,6 +54,7 @@
       msgInput.value = "";
     };
   </script>
+  
   <style>
     body {
       font-family: Arial, sans-serif;
