@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Depression Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0fff0;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .question {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    input[type="number"] {
+      width: 60px;
+      padding: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="chat.html">Chat</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Depression Quiz</h2>
+    <form id="quizForm">
+      <div class="question">
+        <label>1. How often have you felt down or hopeless in the last two weeks? (1–10)</label><br />
+        <input type="number" name="q1" min="1" max="10" required>
+      </div>
+      <div class="question">
+        <label>2. How often have you had trouble sleeping or slept too much? (1–10)</label><br />
+        <input type="number" name="q2" min="1" max="10" required>
+      </div>
+      <div class="question">
+        <label>3. How often have you felt tired or had little energy? (1–10)</label><br />
+        <input type="number" name="q3" min="1" max="10" required>
+      </div>
+      <div class="question">
+        <label>4. How often have you felt bad about yourself or felt like a failure? (1–10)</label><br />
+        <input type="number" name="q4" min="1" max="10" required>
+      </div>
+      <div class="question">
+        <label>5. How often have you had trouble concentrating? (1–10)</label><br />
+        <input type="number" name="q5" min="1" max="10" required>
+      </div>
+      <div class="question">
+        <label>6. How often have you had little interest in doing things you normally enjoy? (1–10)</label><br />
+        <input type="number" name="q6" min="1" max="10" required>
+      </div>
+      <div class="question">
+        <label>7. How often have you felt restless or fidgety? (1–10)</label><br />
+        <input type="number" name="q7" min="1" max="10" required>
+      </div>
+      <div class="question">
+        <label>8. How often have you felt slowed down in your thinking or movement? (1–10)</label><br />
+        <input type="number" name="q8" min="1" max="10" required>
+      </div>
+      <div class="question">
+        <label>9. How often have you felt alone or disconnected from others? (1–10)</label><br />
+        <input type="number" name="q9" min="1" max="10" required>
+      </div>
+      <div class="question">
+        <label>10. How often have you had thoughts that life isn’t worth living? (1–10)</label><br />
+        <input type="number" name="q10" min="1" max="10" required>
+      </div>
+      <button type="submit">Submit Quiz</button>
+    </form>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB8RPTDWCPMRLl-IirhunsbBvCw-PRytVs",
+      authDomain: "depression-b81de.firebaseapp.com",
+      projectId: "depression-b81de",
+      storageBucket: "depression-b81de.appspot.com",
+      messagingSenderId: "206001450588",
+      appId: "1:206001450588:web:4259c6db7d8c40894fc099"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.getElementById("quizForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const answers = {};
+      formData.forEach((value, key) => {
+        answers[key] = parseInt(value);
+      });
+
+      try {
+        await addDoc(collection(db, "quizResponses"), {
+          answers: answers,
+          timestamp: Date.now()
+        });
+        alert("Thank you! Your responses have been saved.");
+        this.reset();
+      } catch (e) {
+        console.error("Error saving quiz:", e);
+        alert("Something went wrong. Please try again.");
+      }
+    });
+  </script>
+
+</body>
+</html>
